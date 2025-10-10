@@ -5,8 +5,10 @@ import openai
 import os
 
 app = Flask(__name__)
-openai.api_key = os.getenv("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
-")
+
+temp = "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
+"
+openai.api_key = os.getenv(temp)
 
 @app.route("/transcribe", methods=["POST"])
 def transcribe():
