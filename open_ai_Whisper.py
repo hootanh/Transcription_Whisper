@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 
-openai.api_key = os.getenv(API_KEY)
+openai.api_key = os.getenv("API_KEY")
 
 @app.route("/transcribe", methods=["POST"])
 def transcribe():
