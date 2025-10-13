@@ -19,7 +19,7 @@ def home():
 
 @app.route("/transcribe", methods=["POST"])
 def transcribe():
-    """Download an audio file from URL and transcribe it using OpenAI Whisper."""
+    """Download an audio file from a URL and transcribe it using OpenAI Whisper."""
     data = request.get_json()
     audio_url = data.get("audioUrl") if data else None
 
@@ -28,7 +28,7 @@ def transcribe():
 
     tmp_path = None
     try:
-        # --- Step 1: Download the audio file (browser-style headers) ---
+        # --- Step 1: Download the audio file with browser-like headers ---
         headers = {
             "User-Agent": (
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -68,7 +68,6 @@ def transcribe():
             transcript = client.audio.transcriptions.create(
                 model="whisper-1",
                 file=audio_file,
-                mime_type="audio/mpeg",
                 language="en"
             )
 
@@ -80,7 +79,7 @@ def transcribe():
         })
 
     except Exception as e:
-        # Log the detailed error to Render logs
+        # Log detailed error to Render logs
         print("=== ERROR IN TRANSCRIPTION ===")
         traceback.print_exc()
         print("==============================")
@@ -96,6 +95,6 @@ def transcribe():
             print(f"Deleted temp file: {tmp_path}")
 
 if __name__ == "__main__":
-    # Render assigns a dynamic port for web services
+    # Render dynamically assigns a port for web services
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
